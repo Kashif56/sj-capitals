@@ -68,7 +68,7 @@
                             </div>
                             <h6 class="card-subtitle text-muted mb-0">Total Invested</h6>
                         </div>
-                        <h3 class="card-title mb-0">${{ total_invested|default:"0.00" }}</h3>
+                        <h3 class="card-title mb-0">${{ selected_subscription.amount }}</h3>
                         <div class="progress mt-3" style="height: 4px;">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"></div>
                         </div>
@@ -419,10 +419,10 @@
             new Chart(allocationChart, {
                 type: 'doughnut',
                 data: {
-                    labels: allocationData.map(item => item.name),
+                    labels: allocationData.labels,
                     datasets: [{
-                        data: allocationData.map(item => item.percentage),
-                        backgroundColor: allocationData.map(item => item.color),
+                        data: allocationData.data,
+                        backgroundColor: allocationData.colors,
                         borderWidth: 0,
                         hoverOffset: 4
                     }]
