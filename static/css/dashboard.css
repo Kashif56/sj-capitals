@@ -1,0 +1,176 @@
+/* SJ Capitals Dashboard Styles
+-------------------------------------------------- */
+
+:root {
+  --sj-navy: #0a2540;
+  --sj-green: #0a8554;
+  --sj-light-green: #e7f5ee;
+  --sj-light-blue: #e9f0f7;
+  --sj-light-gray: #f8f9fa;
+  --sj-border-color: #e9ecef;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  background-color: var(--sj-light-gray);
+  min-height: calc(100vh - 70px);
+  padding-bottom: 2rem;
+}
+
+/* Dashboard Title */
+.dashboard-title {
+  color: var(--sj-navy);
+  font-weight: 600;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* KPI Cards */
+.kpi-card {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+}
+
+.icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.bg-primary-soft {
+  background-color: var(--sj-light-blue);
+}
+
+.bg-success-soft {
+  background-color: var(--sj-light-green);
+}
+
+.bg-info-soft {
+  background-color: #e3f2fd;
+}
+
+.bg-warning-soft {
+  background-color: #fff8e1;
+}
+
+/* Plan Cards */
+.plan-card {
+  border-radius: 0.75rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-width: 1px;
+  overflow: hidden;
+}
+
+.plan-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+}
+
+.plan-card .card-header {
+  border-bottom: 1px solid var(--sj-border-color);
+  padding: 0.75rem 1rem;
+}
+
+.plan-card .card-footer {
+  border-top: 1px solid var(--sj-border-color);
+  padding: 0.75rem 1rem;
+}
+
+/* Table Styles */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--sj-navy);
+  font-size: 0.875rem;
+}
+
+.table td {
+  vertical-align: middle;
+  font-size: 0.875rem;
+}
+
+/* Cards */
+.card {
+  border: 1px solid var(--sj-border-color);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--sj-border-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+  
+  .card-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Search input styling */
+.input-group-text {
+  background-color: #fff;
+  border-color: var(--sj-border-color);
+}
+
+#payoutSearch {
+  border-color: var(--sj-border-color);
+  box-shadow: none;
+}
+
+#payoutSearch:focus {
+  border-color: var(--sj-green);
+}
+
+/* Badge styling */
+.badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+}
+
+/* Button styling */
+.btn-outline-primary {
+  border-color: var(--sj-navy);
+  color: var(--sj-navy);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--sj-navy);
+  border-color: var(--sj-navy);
+  color: white;
+}
+
+.btn-primary {
+  background-color: var(--sj-navy);
+  border-color: var(--sj-navy);
+}
+
+.btn-primary:hover {
+  background-color: #0d3256;
+  border-color: #0d3256;
+}

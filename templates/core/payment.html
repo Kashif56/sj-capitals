@@ -1,0 +1,256 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block title %}Payment for {{ plan.name }}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/payment.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-5 payment-container">
+    <div class="payment-header">
+        <h1>Payment for {{ plan.name }}</h1>
+        {% if pending_subscription %}
+        <p>Your payment is being processed</p>
+        {% else %}
+        <p>Complete your investment by following the steps below</p>
+        {% endif %}
+    </div>
+    
+    {% if not pending_subscription %}
+    <div class="payment-instructions">
+        <div class="payment-step">
+            <div class="step-number">1</div>
+            <div class="step-text">Choose your preferred payment method below</div>
+        </div>
+        <div class="payment-step">
+            <div class="step-number">2</div>
+            <div class="step-text">Make the payment using the account details provided</div>
+        </div>
+        <div class="payment-step">
+            <div class="step-number">3</div>
+            <div class="step-text">Take a screenshot of your payment confirmation</div>
+        </div>
+        <div class="payment-step">
+            <div class="step-number">4</div>
+            <div class="step-text">Click the "Upload Payment Proof" button and complete the form</div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info mb-4">
+        <div class="d-flex align-items-center">
+            <div class="me-3 fs-1 text-primary">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div>
+                <h4 class="alert-heading mb-2">Payment Verification in Progress</h4>
+                <p class="mb-0">You have already submitted a payment screenshot for this plan. Our admin team is currently reviewing your payment. You will be notified once your subscription is activated.</p>
+                <hr>
+                <p class="mb-0"><small>Submitted on: {{ pending_subscription.created_at|date:"F j, Y, g:i a" }}</small></p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="row">
+        <!-- Plan Details Card -->
+        <div class="col-lg-4 mb-4" style="height: fit-content;">
+            <div class="card plan-details-card">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Plan Details</h5>
+                </div>
+                <div class="card-body">
+                    <h4 class="fw-bold text-primary">{{ plan.name }}</h4>
+                    <p class="text-muted">{{ plan.description }}</p>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Min Investment:</span>
+                        <span class="fw-bold">${{ plan.min_invest }}</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Max Investment:</span>
+                        <span class="fw-bold">${{ plan.max_invest }}</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Duration:</span>
+                        <span class="fw-bold">{{ plan.duration_days }} days</span>
+                    </div>
+                    
+                    <hr>
+                    
+                    {% if not pending_subscription %}
+                    <div class="d-grid mt-4">
+                        <button type="button" class="payment-cta" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                            <i class="bi bi-upload"></i> Upload Payment Proof
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="d-grid mt-4">
+                        <button type="button" class="btn btn-secondary" disabled>
+                            <i class="bi bi-check-circle"></i> Payment Submitted
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Methods or Subscription Status -->
+        <div class="col-lg-8 mb-4" style="height: fit-content;">
+            {% if not pending_subscription %}
+            <!-- Payment Methods -->
+            <div class="card h-100">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Payment Methods</h5>
+                </div>
+                <div class="card-body">
+                    {% for key, method in payment_methods.items %}
+                    <div class="payment-method-card mb-3">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-md-4 text-center py-3">
+                                <div class="method-icon">
+                                    {% if key == 'jazzcash' %}
+                                    <i class="bi bi-wallet2"></i>
+                                    {% elif key == 'easypaisa' %}
+                                    <i class="bi bi-phone"></i>
+                                    {% else %}
+                                    <i class="bi bi-bank"></i>
+                                    {% endif %}
+                                </div>
+                                <h5 class="fw-bold mt-2">{{ method.name }}</h5>
+                            </div>
+                            <div class="col-md-8 py-3">
+                                <div class="account-info mx-3">
+                                    <div class="mb-2">
+                                        <small class="text-muted">Account Title:</small>
+                                        <div>{{ method.account_title }}</div>
+                                    </div>
+                                    <div class="mb-0">
+                                        <small class="text-muted">Account Number:</small>
+                                        <div class="account-number">{{ method.account_number }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <!-- Subscription Status -->
+            <div class="card h-100">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Subscription Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center py-4">
+                        <div class="display-1 text-warning mb-3">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <h3 class="mb-3">Awaiting Admin Confirmation</h3>
+                        <p class="mb-4">You have already submitted a payment of <strong>${{ pending_subscription.amount }}</strong> for this plan.</p>
+                        
+                        <div class="d-flex justify-content-center">
+                            <div class="subscription-timeline">
+                                <div class="timeline-item active">
+                                    <div class="timeline-icon">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h6>Payment Submitted</h6>
+                                        <p class="small text-muted">{{ pending_subscription.created_at|date:"F j, Y" }}</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-icon">
+                                        <i class="bi bi-hourglass-split"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h6>Admin Verification</h6>
+                                        <p class="small text-muted">In progress</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-icon">
+                                        <i class="bi bi-check-circle"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h6>Subscription Activation</h6>
+                                        <p class="small text-muted">Pending</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal fade payment-modal" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Upload Payment Proof</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data" id="payment-form">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount Paid</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="amount" name="amount" 
+                                   min="{{ plan.min_invest }}" max="{{ plan.max_invest }}" required>
+                        </div>
+                        <div class="form-text">
+                            Amount must be between ${{ plan.min_invest }} and ${{ plan.max_invest }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="screenshot" class="form-label">Payment Screenshot</label>
+                        <div class="custom-file-upload" id="file-upload-container">
+                            <input type="file" class="d-none" id="screenshot" name="screenshot" accept="image/*" required>
+                            <i class="bi bi-cloud-arrow-up fs-3 mb-2 d-block"></i>
+                            <p class="mb-0">Drag & drop your screenshot here or <span class="text-primary">browse</span></p>
+                            <small class="text-muted">Supported formats: JPG, PNG, GIF</small>
+                        </div>
+                        <div id="preview-container" class="text-center">
+                            <img id="image-preview" src="#" alt="Preview">
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-2" id="remove-image">
+                                <i class="bi bi-x"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comment (Optional)</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="3" 
+                                  placeholder="Add any additional information or reference..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="payment-form" class="btn btn-primary">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Submit Payment for Verification
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/payment.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,519 @@
+{% extends 'common/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="container py-4">
+        <!-- Dashboard Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="dashboard-title">
+                    <i class="bi bi-speedometer2 me-2"></i>Investment Dashboard
+                </h1>
+                <p class="text-muted">Welcome back, {{ request.user.first_name|default:request.user.username }}. Here's your investment overview.</p>
+                
+                {% if selected_subscription %}
+                <!-- Normal indicator that will be hidden when the sticky one appears -->
+                <div id="subscription-indicator-original" class="alert alert-info mt-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <div>
+                                <strong>Currently viewing:</strong> {{ selected_subscription.plan.name }} subscription 
+                                <span class="badge {% if selected_subscription.status == 'active' %}bg-success{% elif selected_subscription.status == 'pending' %}bg-warning{% elif selected_subscription.status == 'completed' %}bg-info{% else %}bg-secondary{% endif %} ms-2">
+                                    {{ selected_subscription.status|title }}
+                                </span>
+                                <span class="ms-2">${{ selected_subscription.amount }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sticky indicator that only appears when scrolled -->
+                <div id="subscription-indicator-sticky" class="alert alert-info" style="position: fixed; top: -100px; left: 0; right: 0; z-index: 1030; width: fit-content; max-width: 1200px; margin: 0 auto; box-shadow: 0 3px 10px rgba(0,0,0,0.2); transition: top 0.3s ease-in-out;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <div>
+                                <strong>Currently viewing:</strong> {{ selected_subscription.plan.name }} subscription 
+                                <span class="badge {% if selected_subscription.status == 'active' %}bg-success{% elif selected_subscription.status == 'pending' %}bg-warning{% elif selected_subscription.status == 'completed' %}bg-info{% else %}bg-secondary{% endif %} ms-2">
+                                    {{ selected_subscription.status|title }}
+                                </span>
+                                <span class="ms-2">${{ selected_subscription.amount }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+        
+        <!-- KPI Summary Cards -->
+        <div class="row mb-4">
+            <!-- Total Invested Amount -->
+            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                <div class="card kpi-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-container bg-primary-soft me-3">
+                                <i class="bi bi-cash-stack text-primary"></i>
+                            </div>
+                            <h6 class="card-subtitle text-muted mb-0">Total Invested</h6>
+                        </div>
+                        <h3 class="card-title mb-0">${{ total_invested|default:"0.00" }}</h3>
+                        <div class="progress mt-3" style="height: 4px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Earnings -->
+            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                <div class="card kpi-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-container bg-success-soft me-3">
+                                <i class="bi bi-graph-up-arrow text-success"></i>
+                            </div>
+                            <h6 class="card-subtitle text-muted mb-0">Total Earnings</h6>
+                        </div>
+                        <h3 class="card-title mb-0">${{ total_earnings|default:"0.00" }}</h3>
+                        <div class="progress mt-3" style="height: 4px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Plans -->
+            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                <div class="card kpi-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-container bg-info-soft me-3">
+                                <i class="bi bi-clipboard-check text-info"></i>
+                            </div>
+                            <h6 class="card-subtitle text-muted mb-0">Active Plans</h6>
+                        </div>
+                        <h3 class="card-title mb-0">{{ active_plans_count|default:"0" }}</h3>
+                        <div class="progress mt-3" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Next Payout Date -->
+            <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                <div class="card kpi-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-container bg-warning-soft me-3">
+                                <i class="bi bi-calendar-check text-warning"></i>
+                            </div>
+                            <h6 class="card-subtitle text-muted mb-0">Next Payout</h6>
+                        </div>
+                        <h3 class="card-title mb-0">{{ next_payout_date|date:"M d, Y"|default:"No payouts" }}</h3>
+                        <div class="progress mt-3" style="height: 4px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscribed Plans Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="bi bi-layers me-2"></i>Your Investment Plans
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% if plans %}
+                        <div class="row">
+                            {% for plan in plans %}
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card plan-card h-100 {% if plan.status == 'Active' %}border-success{% elif plan.status == 'Pending' %}border-warning{% elif plan.status == 'Completed' %}border-info{% else %}border-secondary{% endif %}">
+                                    <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">{{ plan.plan_name }}</h6>
+                                        <span class="badge {% if plan.status == 'Active' %}bg-success{% elif plan.status == 'Pending' %}bg-warning{% elif plan.status == 'Completed' %}bg-info{% else %}bg-secondary{% endif %}">
+                                            {{ plan.status }}
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Investment Amount</small>
+                                            <strong>${{ plan.amount }}</strong>
+                                        </div>
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Duration</small>
+                                            {% if plan.status == 'Pending' %}
+                                            <strong>Awaiting approval</strong>
+                                            {% else %}
+                                            <strong>{{ plan.start_date|date:"M d, Y" }} - {{ plan.end_date|date:"M d, Y" }}</strong>
+                                            {% endif %}
+                                        </div>
+                                        <div class="mb-0">
+                                            <small class="text-muted d-block">{% if plan.status == 'Pending' %}Status{% else %}Remaining{% endif %}</small>
+                                            <div class="progress mt-1" style="height: 6px;">
+                                                <div class="progress-bar {% if plan.status == 'Active' %}bg-success{% elif plan.status == 'Pending' %}bg-warning{% elif plan.status == 'Completed' %}bg-info{% else %}bg-secondary{% endif %}" 
+                                                     role="progressbar" 
+                                                     style="width: {{ plan.progress_percentage }}%" 
+                                                     aria-valuenow="{{ plan.progress_percentage }}" 
+                                                     aria-valuemin="0" 
+                                                     aria-valuemax="100"></div>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-1">
+                                                {% if plan.status == 'Pending' %}
+                                                <small class="text-muted">Submitted on {{ plan.start_date|date:"M d, Y" }}</small>
+                                                <small class="text-muted">Pending</small>
+                                                {% else %}
+                                                <small class="text-muted">{{ plan.remaining_days }} days left</small>
+                                                <small class="text-muted">{{ plan.progress_percentage }}%</small>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        {% if plan.status == 'Pending' %}
+                                        <button class="btn btn-sm btn-outline-warning w-100" disabled>
+                                            <i class="bi bi-hourglass-split me-1"></i>Awaiting Approval
+                                        </button>
+                                        {% else %}
+                                        <a href="?subscription_id={{ plan.id }}" class="btn btn-sm btn-outline-primary w-100">
+                                            <i class="bi bi-eye me-1"></i>View Details
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-clipboard-x display-4 text-muted"></i>
+                            <p class="mt-3 mb-0">You don't have any active investment plans.</p>
+                            <a href="#" class="btn btn-primary mt-3">
+                                <i class="bi bi-plus-circle me-2"></i>Browse Available Plans
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Allocation Chart -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-pie-chart-fill me-2"></i>Your Investment Allocation
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if has_allocations %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Chart on the left -->
+                                <div class="chart-container mb-3" style="position: relative; height: 250px;">
+                                    <canvas id="allocationChart"></canvas>
+                                </div>
+                                
+                                <!-- Legends below the chart -->
+                                <div class="allocation-legend d-flex flex-wrap justify-content-center mb-3">
+                                    {% for allocation in allocation_data %}
+                                    <div class="allocation-item d-flex align-items-center me-3 mb-2">
+                                        <div class="color-box me-2" style="width: 16px; height: 16px; background-color: {{ allocation.color }}; border-radius: 3px;"></div>
+                                        <div>
+                                            <span>{{ allocation.name }}</span>
+                                            <span class="fw-bold ms-1">{{ allocation.percentage }}%</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <!-- Table on the right -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Market Type</th>
+                                                <th>Allocation</th>
+                                                <th>Amount ($)</th>
+                                                <th>Allocated On</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for allocation in allocation_data %}
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="color-box me-2" style="width: 12px; height: 12px; background-color: {{ allocation.color }}; border-radius: 2px;"></div>
+                                                        {{ allocation.name }}
+                                                    </div>
+                                                </td>
+                                                <td class="fw-bold">{{ allocation.percentage }}%</td>
+                                                <td>
+                                                    {% if allocation.market_type == 'vacant' %}
+                                                    <span class="text-warning">${{ allocation.amount|default:"0.00" }}</span>
+                                                    {% else %}
+                                                    ${{ allocation.amount|default:"0.00" }}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if allocation.created_at %}
+                                                    {{ allocation.created_at|date:"M d, Y" }}
+                                                    {% else %}
+                                                    <span class="text-muted">Not available</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="table-light">
+                                                <th>Total</th>
+                                                <th>100%</th>
+                                                <th>${{ total_invested|default:"0.00" }}</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                
+                                <div class="allocation-info mt-3 p-3 bg-light rounded">
+                                    <p class="mb-0 small">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        Your funds are strategically allocated across different market sectors to maximize returns while managing risk.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <div class="mb-3">
+                                <i class="bi bi-exclamation-circle text-warning" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5>No Investment Allocations Made</h5>
+                            <p class="text-muted">Your investment has not been allocated to any market sectors yet. This typically happens within 24 hours of your subscription being approved.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+
+        <!-- Payout Schedule Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="bi bi-calendar-week me-2"></i>Payout Schedule
+                            </h5>
+                            <div class="input-group input-group-sm" style="max-width: 300px;">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0 ps-0" id="payoutSearch" placeholder="Search payouts...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if payout_data %}
+                                        {% for payout in payout_data %}
+                                        <tr>
+                                            <td>{{ payout.date|date:"F d, Y" }}</td>
+                                            <td>${{ payout.amount }}</td>
+                                            <td>
+                                                <span class="badge {% if payout.status == 'completed' %}bg-success{% elif payout.status == 'pending' %}bg-warning{% else %}bg-secondary{% endif %}">
+                                                    {{ payout.status|title }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% if selected_subscription %}
+                                        <tr>
+                                            <td colspan="3" class="text-center">
+                                                <div class="alert alert-info mb-0">
+                                                    <i class="bi bi-info-circle me-2"></i>No payout data available for this subscription.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <!-- Sample payout data when no subscription is selected -->
+                                        <tr>
+                                            <td>June 15, 2023</td>
+                                            <td>$250.00</td>
+                                            <td><span class="badge bg-success">Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>July 15, 2023</td>
+                                            <td>$250.00</td>
+                                            <td><span class="badge bg-success">Completed</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>August 15, 2023</td>
+                                            <td>$250.00</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Chart.js Datalabels Plugin -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Register Chart.js datalabels plugin
+        Chart.register(ChartDataLabels);
+        
+        // Initialize investment allocation chart
+        const allocationChart = document.getElementById('allocationChart');
+        if (allocationChart) {
+            const allocationData = {{ allocation_json|safe }};
+            
+            new Chart(allocationChart, {
+                type: 'doughnut',
+                data: {
+                    labels: allocationData.map(item => item.name),
+                    datasets: [{
+                        data: allocationData.map(item => item.percentage),
+                        backgroundColor: allocationData.map(item => item.color),
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw}%`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                                size: 11
+                            },
+                            formatter: function(value, context) {
+                                if (value < 5) return ''; // Don't show labels for small segments
+                                return context.chart.data.labels[context.dataIndex].split(' ')[0];
+                            },
+                            textAlign: 'center'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Search functionality for payout table
+        const payoutSearch = document.getElementById('payoutSearch');
+        if (payoutSearch) {
+            payoutSearch.addEventListener('keyup', function() {
+                const searchValue = this.value.toLowerCase();
+                const table = document.getElementById('payoutTable');
+                const rows = table.getElementsByTagName('tr');
+                
+                for (let i = 1; i < rows.length; i++) {
+                    let found = false;
+                    const cells = rows[i].getElementsByTagName('td');
+                    
+                    for (let j = 0; j < cells.length; j++) {
+                        const cellText = cells[j].textContent || cells[j].innerText;
+                        
+                        if (cellText.toLowerCase().indexOf(searchValue) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    
+                    rows[i].style.display = found ? '' : 'none';
+                }
+            });
+        }
+        
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Sticky subscription indicator logic
+        {% if selected_subscription %}
+        const originalIndicator = document.getElementById('subscription-indicator-original');
+        const stickyIndicator = document.getElementById('subscription-indicator-sticky');
+        
+        if (originalIndicator && stickyIndicator) {
+            const originalRect = originalIndicator.getBoundingClientRect();
+            const originalTop = originalRect.top + window.scrollY;
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > originalTop) {
+                    // User has scrolled past the original indicator
+                    stickyIndicator.style.top = '60px';
+                } else {
+                    // User is above the original indicator
+                    stickyIndicator.style.top = '-100px';
+                }
+            });
+            
+            // Trigger scroll event once to initialize
+            window.dispatchEvent(new Event('scroll'));
+        }
+        {% endif %}
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Payment Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4e73df;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f8f9fc;
+        }
+        .payment-details {
+            background-color: white;
+            border: 1px solid #e3e6f0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eaecf4;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #858796;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #4e73df;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>New Payment Notification</h1>
+        </div>
+        <div class="content">
+            <p>Dear Admin,</p>
+            <p>A new payment has been submitted by <strong>{{ user.username }}</strong> and is awaiting your verification.</p>
+            
+            <div class="payment-details">
+                <h3>Payment Details</h3>
+                <div class="detail-row">
+                    <span>User:</span>
+                    <span>{{ user.username }} ({{ user.email }})</span>
+                </div>
+                <div class="detail-row">
+                    <span>Plan:</span>
+                    <span>{{ plan.name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>Amount:</span>
+                    <span>${{ amount }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>Subscription ID:</span>
+                    <span>{{ subscription.id }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>Date:</span>
+                    <span>{{ subscription.created_at|date:"F j, Y, g:i a" }}</span>
+                </div>
+                {% if comment %}
+                <div class="detail-row">
+                    <span>Comment:</span>
+                    <span>{{ comment }}</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <p>A screenshot of the payment has been attached to this email for your verification.</p>
+            
+            <p>Please review this payment and update its status in the admin panel.</p>
+            
+            <a href="{{ request.scheme }}://{{ request.get_host }}/admin/dashboard/subscription/{{ subscription.id }}/change/" class="btn">Review in Admin Panel</a>
+        </div>
+        <div class="footer">
+            <p>This is an automated message from SJ Capitals Investment Platform.</p>
+            <p>&copy; {% now "Y" %} SJ Capitals. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
