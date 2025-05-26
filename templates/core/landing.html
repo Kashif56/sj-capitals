@@ -185,7 +185,7 @@
           <div class="netflix-carousel-item">
             <div class="sj-card h-100">
               <span class="plan-badge plan-badge-primary">{{ plan.name }}</span>
-              <h3>${{ plan.min_invest|floatformat:0 }} - ${{ plan.max_invest|floatformat:0 }}</h3>
+              <h3>Rs. {{ plan.min_invest|floatformat:0 }} - Rs. {{ plan.max_invest|floatformat:0 }}</h3>
               <p>{{ plan.description }}</p>
               <div class="plan-price plan-price-primary mb-4">4-10%</div>
               <p class="text-muted small">Average annual return</p>

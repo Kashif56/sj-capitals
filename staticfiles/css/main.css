@@ -1,0 +1,256 @@
+/* Custom styles for SJ Capitals */
+
+
+
+/* Unified Card System */
+.sj-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.sj-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border-color: rgba(249, 212, 35, 0.5);
+}
+
+/* Card icon styles */
+.sj-icon {
+  background-color: #f8f9fa;
+  width: 70px;
+  height: 70px;
+  border-radius: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.sj-card:hover .sj-icon {
+  background: linear-gradient(135deg, #f9f4e1, #f9d423);
+}
+
+.sj-icon i {
+  font-size: 2rem;
+  color: #f9d423;
+  transition: all 0.3s ease;
+}
+
+.sj-card:hover .sj-icon i {
+  color: #8a6d2f;
+}
+
+/* Card typography */
+.sj-card h4 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+.sj-card h3 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
+.sj-card p {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+/* Feature lists */
+.sj-feature {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.sj-feature i {
+  color: #f9d423;
+  margin-right: 0.5rem;
+}
+
+/* Card buttons */
+.sj-btn {
+  background-color: transparent;
+  color: #212529;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.sj-btn:hover {
+  background-color: #f9d423;
+  border-color: #f9d423;
+  color: #212529;
+}
+
+/* Plan card specific styles */
+.plan-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.plan-badge-primary {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+}
+
+.plan-badge-success {
+  background-color: rgba(25, 135, 84, 0.1);
+  color: #198754;
+}
+
+.plan-badge-dark {
+  background-color: rgba(33, 37, 41, 0.1);
+  color: #212529;
+}
+
+.sj-card:hover .plan-badge-primary {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.sj-card:hover .plan-badge-success {
+  background-color: #198754;
+  color: white;
+}
+
+.sj-card:hover .plan-badge-dark {
+  background-color: #212529;
+  color: white;
+}
+
+.plan-price {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.plan-price-primary {
+  color: #0d6efd;
+}
+
+.plan-price-success {
+  color: #198754;
+}
+
+.plan-price-dark {
+  color: #212529;
+}
+
+/* Popular badge */
+.popular-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #f9f4e1, #f9d423);
+  color: #8a6d2f;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.sj-card:hover .popular-badge {
+  background: linear-gradient(135deg, #f9d423, #d4af37);
+  color: white;
+}
+
+/* Legacy support for existing classes */
+.industry-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.industry-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border-color: rgba(249, 212, 35, 0.5);
+}
+
+.industry-icon {
+  background-color: #f8f9fa;
+  width: 70px;
+  height: 70px;
+  border-radius: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.industry-card:hover .industry-icon {
+  background: linear-gradient(135deg, #f9f4e1, #f9d423);
+}
+
+.industry-icon i {
+  font-size: 2rem;
+  color: #f9d423;
+  transition: all 0.3s ease;
+}
+
+.industry-card:hover .industry-icon i {
+  color: #8a6d2f;
+}
+
+.industry-feature {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.industry-feature i {
+  color: #f9d423;
+  margin-right: 0.5rem;
+}
+
+.industry-btn {
+  background-color: transparent;
+  color: #212529;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.industry-btn:hover {
+  background-color: #f9d423;
+  border-color: #f9d423;
+  color: #212529;
+}
+

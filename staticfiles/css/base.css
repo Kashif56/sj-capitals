@@ -1,0 +1,240 @@
+/* 
+ * SJ Capitals Base CSS
+ * A consistent color scheme and design system for the entire site
+ */
+
+:root {
+  /* Primary Color Palette */
+  --sj-primary: #0d3b66;      /* Deep blue - primary brand color */
+  --sj-primary-light: #e9f2ff; /* Light blue - backgrounds */
+  --sj-primary-dark: #092a4a;  /* Dark blue - hover states */
+  
+  /* Secondary Color Palette */
+  --sj-secondary: #198754;    /* Green - success indicators */
+  --sj-secondary-light: #e8f6f0; /* Light green - backgrounds */
+  --sj-secondary-dark: #0f5e3a;  /* Dark green - hover states */
+  
+  /* Accent Color Palette */
+  --sj-gold: #f9d423;         /* Gold - premium accents */
+  --sj-gold-light: #f9f4e1;   /* Light gold - backgrounds */
+  --sj-gold-dark: #d4af37;    /* Dark gold - hover states */
+  
+  /* Neutral Color Palette */
+  --sj-dark: #212529;         /* Dark gray - text */
+  --sj-gray: #6c757d;         /* Medium gray - secondary text */
+  --sj-light-gray: #f8f9fa;   /* Light gray - backgrounds */
+  --sj-white: #ffffff;        /* White - card backgrounds */
+  
+  /* Feedback Colors */
+  --sj-success: #198754;      /* Green - success messages */
+  --sj-info: #0dcaf0;         /* Blue - information messages */
+  --sj-warning: #ffc107;      /* Yellow - warning messages */
+  --sj-danger: #dc3545;       /* Red - error messages */
+  
+  /* Override Bootstrap Variables */
+  --bs-primary: var(--sj-primary);
+  --bs-secondary: var(--sj-secondary);
+  --bs-success: var(--sj-secondary);
+  --bs-info: var(--sj-info);
+  --bs-warning: var(--sj-warning);
+  --bs-danger: var(--sj-danger);
+  --bs-light: var(--sj-light-gray);
+  --bs-dark: var(--sj-dark);
+}
+
+/* Override Bootstrap Button Classes */
+.btn-primary {
+  background-color: var(--sj-primary);
+  border-color: var(--sj-primary);
+}
+
+.btn-primary:hover, 
+.btn-primary:focus, 
+.btn-primary:active {
+  background-color: var(--sj-primary-dark) !important;
+  border-color: var(--sj-primary-dark) !important;
+}
+
+.btn-outline-primary {
+  color: var(--sj-primary);
+  border-color: var(--sj-primary);
+}
+
+.btn-outline-primary:hover, 
+.btn-outline-primary:focus, 
+.btn-outline-primary:active {
+  background-color: var(--sj-primary) !important;
+  border-color: var(--sj-primary) !important;
+  color: var(--sj-white) !important;
+}
+
+.btn-secondary {
+  background-color: var(--sj-secondary);
+  border-color: var(--sj-secondary);
+}
+
+.btn-secondary:hover, 
+.btn-secondary:focus, 
+.btn-secondary:active {
+  background-color: var(--sj-secondary-dark) !important;
+  border-color: var(--sj-secondary-dark) !important;
+}
+
+.btn-outline-secondary {
+  color: var(--sj-secondary);
+  border-color: var(--sj-secondary);
+}
+
+.btn-outline-secondary:hover, 
+.btn-outline-secondary:focus, 
+.btn-outline-secondary:active {
+  background-color: var(--sj-secondary) !important;
+  border-color: var(--sj-secondary) !important;
+  color: var(--sj-white) !important;
+}
+
+/* Premium Gold Button - Special for SJ Capitals */
+.btn-gold {
+  background-color: var(--sj-gold);
+  border-color: var(--sj-gold);
+  color: var(--sj-dark);
+}
+
+.btn-gold:hover, 
+.btn-gold:focus, 
+.btn-gold:active {
+  background-color: var(--sj-gold-dark) !important;
+  border-color: var(--sj-gold-dark) !important;
+  color: var(--sj-white) !important;
+}
+
+.btn-outline-gold {
+  color: var(--sj-gold-dark);
+  border-color: var(--sj-gold);
+}
+
+.btn-outline-gold:hover, 
+.btn-outline-gold:focus, 
+.btn-outline-gold:active {
+  background-color: var(--sj-gold) !important;
+  border-color: var(--sj-gold) !important;
+  color: var(--sj-dark) !important;
+}
+
+/* Background Color Classes */
+.bg-primary {
+  background-color: var(--sj-primary) !important;
+}
+
+.bg-primary-light {
+  background-color: var(--sj-primary-light) !important;
+}
+
+.bg-secondary {
+  background-color: var(--sj-secondary) !important;
+}
+
+.bg-secondary-light {
+  background-color: var(--sj-secondary-light) !important;
+}
+
+.bg-gold {
+  background-color: var(--sj-gold) !important;
+}
+
+.bg-gold-light {
+  background-color: var(--sj-gold-light) !important;
+}
+
+/* Text Color Classes */
+.text-primary {
+  color: var(--sj-primary) !important;
+}
+
+.text-secondary {
+  color: var(--sj-gray) !important;
+}
+
+.text-success {
+  color: var(--sj-secondary) !important;
+}
+
+.text-gold {
+  color: var(--sj-gold-dark) !important;
+}
+
+/* Badge Overrides */
+.badge.bg-primary {
+  background-color: var(--sj-primary) !important;
+}
+
+.badge.bg-primary.bg-opacity-10 {
+  background-color: rgba(13, 59, 102, 0.1) !important;
+  color: var(--sj-primary) !important;
+}
+
+.badge.bg-secondary {
+  background-color: var(--sj-secondary) !important;
+}
+
+.badge.bg-secondary.bg-opacity-10 {
+  background-color: rgba(25, 135, 84, 0.1) !important;
+  color: var(--sj-secondary) !important;
+}
+
+/* Card Styles */
+.card {
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Gradients */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--sj-primary-light) 0%, var(--sj-primary) 100%);
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(135deg, var(--sj-gold-light) 0%, var(--sj-gold) 100%);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--sj-dark);
+}
+
+.lead {
+  color: var(--sj-gray);
+}
+
+/* Links */
+a {
+  color: var(--sj-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--sj-primary-dark);
+  text-decoration: underline;
+}
+
+/* Forms */
+.form-control:focus {
+  border-color: var(--sj-primary);
+  box-shadow: 0 0 0 0.25rem rgba(13, 59, 102, 0.25);
+}
+
+/* Custom Dividers */
+.divider-primary {
+  height: 2px;
+  background: var(--sj-primary);
+  opacity: 0.25;
+  margin: 1.5rem 0;
+}
+
+.divider-gold {
+  height: 2px;
+  background: var(--sj-gold);
+  opacity: 0.5;
+  margin: 1.5rem 0;
+}
