@@ -81,7 +81,7 @@
                 </div>
                 <div class="detail-row">
                     <span>Amount:</span>
-                    <span>${{ amount }}</span>
+                    <span>Rs {{ amount }}</span>
                 </div>
                 <div class="detail-row">
                     <span>Subscription ID:</span>
@@ -103,7 +103,8 @@
             
             <p>Please review this payment and update its status in the admin panel.</p>
             
-            <a href="{{ request.scheme }}://{{ request.get_host }}/admin/dashboard/subscription/{{ subscription.id }}/change/" class="btn">Review in Admin Panel</a>
+            <a href="http://{{ request.get_host }}/admin/dashboard/subscription/{{ subscription.id }}/change/" class="btn">Review in Admin Panel</a>
+            
         </div>
         <div class="footer">
             <p>This is an automated message from SJ Capitals Investment Platform.</p>

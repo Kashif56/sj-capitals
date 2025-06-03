@@ -10,13 +10,29 @@
   <li><i class="bi bi-piggy-bank"></i> Low minimum deposit</li>
   <li><i class="bi bi-shield-lock"></i> Bank-level security</li>
 </ul>
+
+<style>
+  @media (max-width: 767px) {
+    .auth-features li {
+      margin-bottom: 0.75rem;
+    }
+    .auth-left h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .auth-left p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-          <h3 class="mb-4 fw-bold">Create Your Account</h3>
+          <h3 class="mb-3 mb-md-4 fw-bold">Create Your Account</h3>
           
           <!-- Progress Bar -->
-          <div class="mb-4">
+          <div class="mb-3 mb-md-4">
             <div class="d-flex justify-content-between mb-1">
               <span class="step-text step-1-text fw-bold">Account Details</span>
               <span class="step-text step-2-text text-muted">Personal Information</span>
@@ -54,7 +70,7 @@
                 </div>
                 <div class="invalid-feedback">Password must be at least 6 characters.</div>
               </div>
-              <div class="mb-4">
+              <div class="mb-3 mb-md-4">
                 <label for="registerPassword2" class="form-label">Confirm Password</label>
                 <div class="input-group mb-1">
                   <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock-fill"></i></span>
@@ -62,7 +78,7 @@
                 </div>
                 <div class="invalid-feedback">Passwords must match.</div>
               </div>
-              <button type="button" id="nextBtn" class="btn btn-success w-100 py-3 fw-bold">Continue</button>
+              <button type="button" id="nextBtn" class="btn btn-success w-100 py-2 py-md-3 fw-bold">Continue</button>
             </div>
             
             <!-- Step 2: Personal Information -->
@@ -71,7 +87,7 @@
                 <label for="registerName" class="form-label">Full Name</label>
                 <div class="input-group mb-1">
                   <span class="input-group-text bg-light border-end-0"><i class="bi bi-person-vcard"></i></span>
-                  <input type="text" class="form-control border-start-0" id="registerName" name="name" placeholder="John Doe" required minlength="2">
+                  <input type="text" class="form-control border-start-0" id="registerName" name="name" placeholder="John Doe" required>
                 </div>
                 <div class="invalid-feedback">Please enter your full name.</div>
               </div>
@@ -79,31 +95,56 @@
                 <label for="registerAddress" class="form-label">Address</label>
                 <div class="input-group mb-1">
                   <span class="input-group-text bg-light border-end-0"><i class="bi bi-geo-alt"></i></span>
-                  <input type="text" class="form-control border-start-0" id="registerAddress" name="address" placeholder="123 Main St" required>
+                  <input type="text" class="form-control border-start-0" id="registerAddress" name="address" placeholder="123 Main St, City" required>
                 </div>
                 <div class="invalid-feedback">Please enter your address.</div>
               </div>
-              <div class="mb-4">
+              <div class="mb-3 mb-md-4">
                 <label for="registerPhone" class="form-label">Phone Number</label>
                 <div class="input-group mb-1">
                   <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone"></i></span>
-                  <input type="tel" class="form-control border-start-0" id="registerPhone" name="phone" placeholder="(123) 456-7890" required>
+                  <input type="tel" class="form-control border-start-0" id="registerPhone" name="phone" placeholder="+1 (555) 123-4567" required>
                 </div>
-                <div class="invalid-feedback">Please enter a valid phone number.</div>
+                <div class="invalid-feedback">Please enter your phone number.</div>
               </div>
-              <div class="d-flex gap-2">
-                <button type="button" id="prevBtn" class="btn btn-outline-secondary py-3 fw-bold" style="width: 30%;">Back</button>
-                <button type="submit" class="btn btn-success py-3 fw-bold" style="width: 70%;">Create Account</button>
+              <div class="d-flex justify-content-between">
+                <button type="button" id="prevBtn" class="btn btn-outline-secondary py-2 py-md-3 fw-bold" style="width: 25%;"><i class="bi bi-arrow-left"></i></button>
+                <button type="submit" class="btn btn-success py-2 py-md-3 fw-bold" style="width: 70%;">Create Account</button>
               </div>
             </div>
           </form>
-          <div class="mt-4 text-center">
+          <div class="mt-3 mt-md-4 text-center">
             <span class="text-muted">Already have an account? <a href="/accounts/login/" class="text-success fw-bold">Sign In</a></span>
           </div>
           
           <style>
-            .step-content {
+            .step-text {
+              font-size: 0.85rem;
               transition: all 0.3s ease;
+            }
+            
+            @media (min-width: 768px) {
+              .step-text {
+                font-size: 0.9rem;
+              }
+            }
+            
+            .progress {
+              border-radius: 4px;
+              background-color: #f0f0f0;
+            }
+            
+            @media (max-width: 767px) {
+              .form-control, .input-group-text {
+                padding: 0.6rem 0.75rem;
+              }
+              .form-label {
+                margin-bottom: 0.3rem;
+                font-size: 0.9rem;
+              }
+              h3.fw-bold {
+                font-size: 1.5rem;
+              }
             }
           </style>
           

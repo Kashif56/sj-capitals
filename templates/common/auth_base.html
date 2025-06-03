@@ -30,12 +30,18 @@
         .company-title {
             font-weight: 700;
             letter-spacing: -0.5px;
-            font-size: 2rem;
+            font-size: 1.75rem;
             margin-bottom: 1rem;
             position: relative;
             z-index: 1;
             color: var(--sj-primary);
             text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .company-title {
+                font-size: 2rem;
+            }
         }
         
         .company-title::after {
@@ -59,8 +65,21 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 60%;
-            padding: 2rem;
+            max-width: 90%;
+            padding: 1rem;
+        }
+        
+        @media (min-width: 992px) {
+            main {
+                max-width: 80%;
+                padding: 2rem;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            main {
+                max-width: 60%;
+            }
         }
         
         .auth-container {
@@ -69,17 +88,32 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             width: 100%;
             display: flex;
+            flex-direction: column;
             overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .auth-container {
+                flex-direction: row;
+            }
         }
         
         .auth-left {
             background: linear-gradient(135deg, var(--sj-primary) 0%, var(--sj-secondary) 100%);
             color: white;
-            padding: 3rem 2rem;
-            width: 40%;
-            display: flex;
+            padding: 2rem 1.5rem;
+            width: 100%;
+            display: none; /* Hide on mobile */
             flex-direction: column;
             justify-content: center;
+        }
+        
+        @media (min-width: 768px) {
+            .auth-left {
+                width: 40%;
+                padding: 3rem 2rem;
+                display: flex; /* Show on desktop */
+            }
         }
         
         .auth-left h2 {
@@ -112,8 +146,15 @@
         }
         
         .auth-right {
-            padding: 3rem 2rem;
-            width: 60%;
+            padding: 2rem 1.5rem;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .auth-right {
+                width: 60%;
+                padding: 3rem 2rem;
+            }
         }
         
         /* Custom form styling */

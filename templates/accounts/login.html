@@ -10,13 +10,29 @@
   <li><i class="bi bi-cash-coin"></i> Instant deposit and withdrawal</li>
   <li><i class="bi bi-headset"></i> 24/7 customer support</li>
 </ul>
+
+<style>
+  @media (max-width: 767px) {
+    .auth-features li {
+      margin-bottom: 0.75rem;
+    }
+    .auth-left h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .auth-left p {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+  }
+</style>
 {% endblock %}
 
 {% block content %}
           <h3 class="mb-4 fw-bold">Sign In</h3>
           <form method="post" novalidate>
             {% csrf_token %}
-            <div class="mb-4">
+            <div class="mb-3 mb-md-4">
               <label for="loginEmail" class="form-label">Email address</label>
               <div class="input-group mb-1">
                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope"></i></span>
@@ -24,7 +40,7 @@
               </div>
               <div class="invalid-feedback">Please enter a valid email.</div>
             </div>
-            <div class="mb-4">
+            <div class="mb-3 mb-md-4">
               <label for="loginPassword" class="form-label">Password</label>
               <div class="input-group mb-1">
                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock"></i></span>
@@ -32,17 +48,34 @@
               </div>
               <div class="invalid-feedback">Password is required (min 6 chars).</div>
             </div>
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <div class="form-check">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 mb-md-4">
+              <div class="form-check mb-2 mb-md-0">
                 <input class="form-check-input" type="checkbox" id="rememberMe" name="remember_me">
                 <label class="form-check-label" for="rememberMe">Remember me</label>
               </div>
               <a href="/accounts/forgot-password/" class="small">Forgot password?</a>
             </div>
-            <button type="submit" class="btn btn-success w-100 py-3 fw-bold">Sign In</button>
+            <button type="submit" class="btn btn-success w-100 py-2 py-md-3 fw-bold">Sign In</button>
           </form>
-          <div class="mt-4 text-center">
+          <div class="mt-3 mt-md-4 text-center">
             <span class="text-muted">Don't have an account? <a href="/accounts/register/" class="text-success fw-bold">Create Account</a></span>
           </div>
 
+<style>
+  @media (max-width: 767px) {
+    .form-control, .input-group-text {
+      padding: 0.6rem 0.75rem;
+    }
+    .form-label {
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+    }
+    .small, .form-check-label {
+      font-size: 0.8rem;
+    }
+    h3.fw-bold {
+      font-size: 1.5rem;
+    }
+  }
+</style>
 {% endblock %}

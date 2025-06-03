@@ -99,11 +99,14 @@ def payment(request, plan_id):
                     'plan': plan,
                     'amount': amount,
                     'comment': comment,
-                    'subscription': subscription
+                    'subscription': subscription,
+                    'request': request
                 }
                 
+                # Render the HTML template with context
                 email_body = render_to_string('core/email/payment_notification.html', email_context)
                 
+                # Create email message with HTML content type
                 email = EmailMessage(
                     subject,
                     email_body,
@@ -111,9 +114,17 @@ def payment(request, plan_id):
                     [admin_email],
                 )
                 
-                # Attach the screenshot
+                # Set the content type to HTML
+                email.content_subtype = 'html'
+                
+                # Attach the screenshot properly
                 if screenshot:
-                    email.attach(screenshot.name, screenshot.read(), screenshot.content_type)
+                    # Reset the file pointer to the beginning
+                    screenshot.seek(0)
+                    # Read the content once
+                    content = screenshot.read()
+                    # Attach with proper name and content type
+                    email.attach(screenshot.name, content, screenshot.content_type)
                 
                 email.send()
         except Exception as e:

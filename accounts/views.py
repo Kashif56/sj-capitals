@@ -34,16 +34,14 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            # Check if email is verified
             if not user.profile.is_email_verified and settings.REQUIRE_EMAIL_VERIFICATION:
                 messages.warning(request, 'Please verify your email address before logging in.')
                 return render(request, 'accounts/login.html')
                 
             login(request, user)
             
-            # Set session expiry based on remember_me
             if not remember_me:
-                request.session.set_expiry(0)  # Session expires when browser closes
+                request.session.set_expiry(0)
                 
             messages.success(request, f'Welcome back, {user.first_name or user.username}!')
             return redirect('landing')
@@ -226,18 +224,14 @@ def send_verification_email(request, user, token):
         'verification_url': verification_url,
     })
     
-    # In development, print the URL instead of sending email
-    if settings.DEBUG:
-        print(f"\nVerification URL: {verification_url}\n")
-    else:
-        send_mail(
-            subject,
-            message,
-            settings.EMAIL_HOST_USER,
-            [user.email],
-            fail_silently=False,
-            html_message=message
-        )
+    send_mail(
+        subject,
+        message,
+        settings.EMAIL_HOST_USER,
+        [user.email],
+        fail_silently=False,
+        html_message=message
+    )
 
 
 def send_password_reset_email(request, user, token):
@@ -250,15 +244,11 @@ def send_password_reset_email(request, user, token):
         'reset_url': reset_url,
     })
     
-    # In development, print the URL instead of sending email
-    if settings.DEBUG:
-        print(f"\nPassword Reset URL: {reset_url}\n")
-    else:
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [user.email],
-            fail_silently=False,
-            html_message=message
-        )
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email],
+        fail_silently=False,
+        html_message=message
+    )
