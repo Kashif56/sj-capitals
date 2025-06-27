@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 
@@ -142,3 +142,34 @@ def payment(request, plan_id):
     }
     
     return render(request, 'core/payment.html', context)
+
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        reason = request.POST.get('reason')
+        message = request.POST.get('message')
+        
+        subject = f"Message from {name}: {message[:20]}"
+        
+        admin_email = settings.ADMIN_EMAIL
+        
+        message_to_send = f"""
+        Name = {name}
+        Email = {email}
+        Reason = {reason}
+        Message: 
+        {message}
+        """
+        
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=email,
+            recipient_list=[admin_email,],
+            fail_silently=True
+        )
+        
+        return redirect('landing')
