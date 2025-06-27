@@ -167,8 +167,8 @@ ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:8000',
-    'https://sjcapitals.com',
-    'https://sjcapitals.up.railway.app',
+    'https://sj-capitals.com',
+    'https://sj-capitals.up.railway.app',
 ]
 
 
