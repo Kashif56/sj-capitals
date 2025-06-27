@@ -252,3 +252,65 @@ def send_password_reset_email(request, user, token):
         fail_silently=False,
         html_message=message
     )
+
+
+@login_required
+def profile_settings(request):
+    """Handle user profile settings including bank account details"""
+    user = request.user
+    profile = user.profile
+    
+    if request.method == 'POST':
+        # Get form data
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
+        date_of_birth = request.POST.get('date_of_birth')
+        
+        # Bank account details
+        bank_name = request.POST.get('bank_name')
+        account_holder_name = request.POST.get('account_holder_name')
+        account_number = request.POST.get('account_number')
+        routing_number = request.POST.get('routing_number')
+        swift_code = request.POST.get('swift_code')
+        iban = request.POST.get('iban')
+        
+        # Update user info
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        
+        # Update profile info
+        profile.address = address
+        profile.phone = phone
+        
+        # Handle date of birth
+        if date_of_birth:
+            try:
+                profile.date_of_birth = date_of_birth
+            except ValueError:
+                messages.error(request, 'Invalid date format for date of birth.')
+        
+        # Update bank account details
+        profile.bank_name = bank_name
+        profile.account_holder_name = account_holder_name
+        profile.account_number = account_number
+        profile.routing_number = routing_number
+        profile.swift_code = swift_code
+        profile.iban = iban
+        
+        # Handle profile image upload
+        if 'profile_image' in request.FILES:
+            profile.profile_image = request.FILES['profile_image']
+        
+        profile.save()
+        messages.success(request, 'Your profile has been updated successfully!')
+        return redirect('profile_settings')
+    
+    context = {
+        'user': user,
+        'profile': profile
+    }
+    
+    return render(request, 'accounts/profile_settings.html', context)

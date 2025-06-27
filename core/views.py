@@ -48,22 +48,22 @@ def payment(request, plan_id):
     payment_methods = {
         'jazzcash': {
             'name': 'JazzCash',
-            'account_title': 'SJ Capitals',
-            'account_number': '03001234567',
+            'account_title': 'Jahanzeb Kayani',
+            'account_number': '03462700408',
             'instructions': 'Open JazzCash app, select Send Money, enter our account number, and complete the payment.',
             'note': 'Please include your username in the reference.'
         },
         'easypaisa': {
             'name': 'EasyPaisa',
-            'account_title': 'SJ Capitals',
-            'account_number': '03009876543',
+            'account_title': 'Jahanzeb Kayani',
+            'account_number': '03462700408',
             'instructions': 'Open EasyPaisa app, select Send Money, enter our account number, and complete the payment.',
             'note': 'Please include your username in the reference.'
         },
         'bank': {
-            'name': 'Bank Transfer',
-            'account_title': 'SJ Capitals Ltd.',
-            'account_number': 'PK36ABCD1234567890123456',
+            'name': 'Habib Bank Limited (HBL)',
+            'account_title': 'Jahanzeb Kayani',
+            'account_number': 'PK23HABB0011787900643203',
             'instructions': 'Transfer the amount to our bank account through your banking app or visit your nearest branch.',
             'note': 'Please include your username in the transfer reference.'
         }
